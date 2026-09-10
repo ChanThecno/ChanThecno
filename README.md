@@ -1,122 +1,64 @@
-# ChanThecno
+<p align="center">
+  <img src="./src/assets/chanthecno.svg" width="250" alt="ChanThecno Logo">
+</p>
 
-## TextArcEffect.jsx
+# ChanThecno 
 
-```jsx
-import React, { useEffect, useState } from "react";
-import { motion } from "framer-motion";
-import logo from "../assets/chanthecno.svg";
+ChanThecno adalah project yang berfokus pada pemanfaatan Artificial Intelligence (AI) dan otomatisasi untuk membantu bisnis mengurangi pekerjaan yang bersifat repetitif, meningkatkan efisiensi operasional, dan meningkatkan kualitas pelayanan kepada pelanggan.
 
-function TextArc({ text, diameter }) {
-  const characters = text.split("");
-  const radius = diameter / 2;
-  const angleStep = 360 / characters.length;
+## Masalah yang Dihadapi
 
-  return (
-    <div
-      className="relative"
-      style={{
-        width: diameter,
-        height: diameter,
-      }}
-    >
-      {characters.map((char, index) => {
-        const angle = angleStep * index;
+Banyak UMKM dan bisnis masih menjalankan berbagai proses pelayanan dan operasional secara manual.
 
-        return (
-          <div
-            key={index}
-            className="absolute left-1/2 top-0"
-            style={{
-              height: radius,
-              transform: `rotate(${angle}deg)`,
-              transformOrigin: "bottom center",
-              marginLeft: "-0.35em",
-            }}
-          >
-            <span className="font-pixelated text-sm font-bold text-white md:text-base">
-              {char}
-            </span>
-          </div>
-        );
-      })}
-    </div>
-  );
-}
+Beberapa permasalahan yang dihadapi antara lain:
 
-export default function TextArcEffect() {
-  const [diameter, setDiameter] = useState(270);
+- Pertanyaan pelanggan yang sama harus dijawab berulang kali.
+- Pelayanan pelanggan membutuhkan banyak waktu.
+- Pekerjaan yang bersifat repetitif mengurangi waktu untuk pekerjaan yang memiliki nilai lebih tinggi.
+- Bisnis membutuhkan respons yang lebih cepat dan konsisten kepada pelanggan.
+- Pemanfaatan teknologi AI masih dapat terasa kompleks bagi bisnis yang belum memiliki infrastruktur teknologi yang memadai.
+- Bisnis membutuhkan solusi otomatisasi yang dapat diterapkan berdasarkan permasalahan nyata yang mereka hadapi.
 
-  useEffect(() => {
-    const resize = () => {
-      setDiameter(window.innerWidth < 768 ? 220 : 270);
-    };
+ChanThecno dikembangkan sebagai upaya untuk menjembatani permasalahan tersebut dengan teknologi Artificial Intelligence dan otomatisasi.
 
-    resize();
+## Visi
 
-    window.addEventListener("resize", resize);
+> "Membangun jembatan teknologi Artificial Intelligence yang membantu UMKM dan perusahaan berkembang menuju otomatisasi, khususnya dalam pelayanan pelanggan dan operasional bisnis."
 
-    return () => {
-      window.removeEventListener("resize", resize);
-    };
-  }, []);
+Visi tersebut menggambarkan tujuan ChanThecno untuk membantu bisnis berpindah dari proses kerja yang masih dilakukan secara manual menuju proses yang lebih modern, efisien, dan terotomatisasi dengan memanfaatkan teknologi AI.
 
-  return (
-    <div className="relative flex items-center justify-center">
-      {/* Rotating circle */}
-      <motion.div
-        className="absolute pointer-events-none"
-        animate={{
-          rotate: 360,
-        }}
-        transition={{
-          duration: 22,
-          repeat: Infinity,
-          ease: "linear",
-        }}
-      >
-        <TextArc
-          text=" CHANTHECNO • AI CUSTOMER SERVICE • "
-          diameter={diameter}
-        />
-      </motion.div>
+## Misi
 
-      {/* Center logo */}
-      <motion.div
-        initial={{
-          opacity: 0,
-          scale: 0.7,
-        }}
-        animate={{
-          opacity: 1,
-          scale: 1,
-        }}
-        transition={{
-          duration: 0.8,
-          ease: "easeOut",
-        }}
-        whileHover={{
-          scale: 1.06,
-        }}
-        className="relative z-10 flex h-28 w-28 items-center justify-center md:h-32 md:w-32"
-      >
-        <div className="absolute inset-0 rounded-full bg-blue-500/10 blur-2xl" />
+### 1. Identifikasi Masalah Bisnis
 
-        <img
-          src={logo}
-          alt="ChanThecno"
-          className="relative h-20 w-20 object-contain md:h-24 md:w-24"
-        />
-      </motion.div>
+Membantu bisnis menemukan dan memahami permasalahan dalam proses operasional yang berpotensi diselesaikan atau ditingkatkan melalui teknologi Artificial Intelligence dan otomatisasi.
 
-      <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
+### 2. Penerapan Artificial Intelligence
 
-        .font-pixelated {
-          font-family: 'VT323', monospace;
-        }
-      `}</style>
-    </div>
-  );
-}
-```
+Mengembangkan dan menerapkan teknologi AI sebagai solusi yang dapat membantu bisnis menyelesaikan pekerjaan secara lebih efisien, terstruktur, dan konsisten.
+
+### 3. Mempercepat Pengembangan Bisnis
+
+Membantu UMKM dan bisnis menghemat waktu serta meningkatkan efisiensi proses kerja sehingga dapat lebih fokus pada pengembangan produk, pelayanan, dan pertumbuhan bisnis.
+
+### 4. Meningkatkan Kualitas Bisnis
+
+Mengembangkan solusi teknologi yang dapat meningkatkan kualitas pelayanan pelanggan, operasional, pengelolaan informasi, serta pengalaman pengguna.
+
+### 5. Mendorong Pertumbuhan Ekonomi dan Lapangan Kerja
+
+Mendukung pertumbuhan bisnis melalui pemanfaatan teknologi AI sehingga tercipta peluang pengembangan usaha dan kebutuhan terhadap sumber daya manusia pada pekerjaan yang memiliki nilai tambah lebih tinggi.
+
+## Pencipta
+
+ChanThecno diciptakan oleh:
+
+**Candri Panjaitan**
+
+Akun: **candripanjaitan16**
+
+Status: **Dalam Pengembangan**
+
+---
+
+> AI sebagai alat untuk membantu manusia dan bisnis, bukan semata-mata sebagai pengganti manusia.
