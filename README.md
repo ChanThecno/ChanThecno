@@ -1,16 +1,122 @@
-# React + Vite
+# ChanThecno
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+## TextArcEffect.jsx
 
-Currently, two official plugins are available:
+```jsx
+import React, { useEffect, useState } from "react";
+import { motion } from "framer-motion";
+import logo from "../assets/chanthecno.svg";
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+function TextArc({ text, diameter }) {
+  const characters = text.split("");
+  const radius = diameter / 2;
+  const angleStep = 360 / characters.length;
 
-## React Compiler
+  return (
+    <div
+      className="relative"
+      style={{
+        width: diameter,
+        height: diameter,
+      }}
+    >
+      {characters.map((char, index) => {
+        const angle = angleStep * index;
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+        return (
+          <div
+            key={index}
+            className="absolute left-1/2 top-0"
+            style={{
+              height: radius,
+              transform: `rotate(${angle}deg)`,
+              transformOrigin: "bottom center",
+              marginLeft: "-0.35em",
+            }}
+          >
+            <span className="font-pixelated text-sm font-bold text-white md:text-base">
+              {char}
+            </span>
+          </div>
+        );
+      })}
+    </div>
+  );
+}
 
-## Expanding the Oxlint configuration
+export default function TextArcEffect() {
+  const [diameter, setDiameter] = useState(270);
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and Oxlint's TypeScript related rules in your project.
+  useEffect(() => {
+    const resize = () => {
+      setDiameter(window.innerWidth < 768 ? 220 : 270);
+    };
+
+    resize();
+
+    window.addEventListener("resize", resize);
+
+    return () => {
+      window.removeEventListener("resize", resize);
+    };
+  }, []);
+
+  return (
+    <div className="relative flex items-center justify-center">
+      {/* Rotating circle */}
+      <motion.div
+        className="absolute pointer-events-none"
+        animate={{
+          rotate: 360,
+        }}
+        transition={{
+          duration: 22,
+          repeat: Infinity,
+          ease: "linear",
+        }}
+      >
+        <TextArc
+          text=" CHANTHECNO • AI CUSTOMER SERVICE • "
+          diameter={diameter}
+        />
+      </motion.div>
+
+      {/* Center logo */}
+      <motion.div
+        initial={{
+          opacity: 0,
+          scale: 0.7,
+        }}
+        animate={{
+          opacity: 1,
+          scale: 1,
+        }}
+        transition={{
+          duration: 0.8,
+          ease: "easeOut",
+        }}
+        whileHover={{
+          scale: 1.06,
+        }}
+        className="relative z-10 flex h-28 w-28 items-center justify-center md:h-32 md:w-32"
+      >
+        <div className="absolute inset-0 rounded-full bg-blue-500/10 blur-2xl" />
+
+        <img
+          src={logo}
+          alt="ChanThecno"
+          className="relative h-20 w-20 object-contain md:h-24 md:w-24"
+        />
+      </motion.div>
+
+      <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
+
+        .font-pixelated {
+          font-family: 'VT323', monospace;
+        }
+      `}</style>
+    </div>
+  );
+}
+```
