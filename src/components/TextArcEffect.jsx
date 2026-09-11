@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
+import { Link } from "react-router-dom";
 import logo from "../assets/chanthecno.svg";
 
 function TextArc({ text, diameter }) {
@@ -71,7 +72,7 @@ export default function TextArcEffect() {
         }}
       >
         <TextArc
-          text=" CHANTHECNO • AI CUSTOMER SERVICE • "
+          text=" CHANTHECNO • KLIK TO START • AUTOMATION COMPANY • "
           diameter={diameter}
         />
       </motion.div>
@@ -97,11 +98,17 @@ export default function TextArcEffect() {
       >
         <div className="absolute inset-0 rounded-full bg-blue-500/10 blur-2xl" />
 
-        <img
-          src={logo}
-          alt="ChanThecno"
-          className="relative h-20 w-20 object-contain md:h-24 md:w-24"
-        />
+        <Link
+          to="/Home"
+          aria-label="Masuk ke halaman utama"
+          className="relative flex h-full w-full items-center justify-center"
+        >
+          <img
+            src={logo}
+            alt="ChanThecno"
+            className="relative h-20 w-20 object-contain md:h-24 md:w-24"
+          />
+        </Link>
       </motion.div>
 
       <style>{`
