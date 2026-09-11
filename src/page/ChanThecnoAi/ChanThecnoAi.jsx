@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from "react";
 import { Link } from "react-router-dom";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
-import ChanThecnoLogo from "../assets/chanthecno.svg";
+import ChanThecnoLogo from "../../assets/chanthecno.svg";
 
 const FONT_DISPLAY = "'Space Grotesk', ui-sans-serif, system-ui, sans-serif";
 
