@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import ChanThecnoLogo from "../../assets/chanthecno.svg";
+import { User2 } from "lucide-react";
 
 const FONT_DISPLAY = "'Space Grotesk', ui-sans-serif, system-ui, sans-serif";
 
@@ -111,8 +112,6 @@ const IconCheck = (props) => (
     <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
   </svg>
 );
-
-// Blok kode dengan header bahasa + tombol salin
 function CodeBlock({ className, children }) {
   const [copied, setCopied] = useState(false);
 
@@ -167,7 +166,6 @@ function CodeBlock({ className, children }) {
 }
 
 export default function ChanThecnoAi() {
-
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -179,14 +177,117 @@ export default function ChanThecnoAi() {
   const textareaRef = useRef(null);
   const typingIntervalRef = useRef(null);
 
-  // Scroll otomatis ke pesan terbaru
+  useEffect(() => {
+    const title =
+      "ChanThecno AI — Asisten AI untuk Pertanyaan, Ide, Website & Aplikasi";
+    const description =
+      "ChanThecno AI adalah asisten kecerdasan buatan dari ChanThecno untuk membantu menjawab pertanyaan, mencari ide, membuat website, dan membantu pengembangan aplikasi.";
+    const url = "https://chanthecno.com/ChanThecnoAi";
+    const image = "https://chanthecno.com/chanthecno.svg";
+
+    document.title = title;
+
+    const setMeta = (selector, attribute, value) => {
+      let element = document.head.querySelector(selector);
+      if (!element) {
+        element = document.createElement("meta");
+        element.setAttribute(
+          attribute,
+          selector.match(/["']([^"']+)["']/)?.[1] || "",
+        );
+        document.head.appendChild(element);
+      }
+      element.setAttribute("content", value);
+    };
+
+    const setLink = (rel, href) => {
+      let element = document.head.querySelector(`link[rel="${rel}"]`);
+      if (!element) {
+        element = document.createElement("link");
+        element.setAttribute("rel", rel);
+        document.head.appendChild(element);
+      }
+      element.setAttribute("href", href);
+    };
+
+    setMeta('meta[name="description"]', "name", description);
+    setMeta(
+      'meta[name="robots"]',
+      "name",
+      "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1",
+    );
+    setMeta('meta[name="googlebot"]', "name", "index, follow");
+    setMeta('meta[property="og:type"]', "property", "website");
+    setMeta('meta[property="og:locale"]', "property", "id_ID");
+    setMeta('meta[property="og:site_name"]', "property", "ChanThecno");
+    setMeta('meta[property="og:title"]', "property", title);
+    setMeta('meta[property="og:description"]', "property", description);
+    setMeta('meta[property="og:url"]', "property", url);
+    setMeta('meta[property="og:image"]', "property", image);
+    setMeta('meta[name="twitter:card"]', "name", "summary_large_image");
+    setMeta('meta[name="twitter:title"]', "name", title);
+    setMeta('meta[name="twitter:description"]', "name", description);
+    setMeta('meta[name="twitter:image"]', "name", image);
+
+    setLink("canonical", url);
+
+    const schemaId = "chanthecno-ai-schema";
+    let schema = document.getElementById(schemaId);
+
+    if (!schema) {
+      schema = document.createElement("script");
+      schema.id = schemaId;
+      schema.type = "application/ld+json";
+      document.head.appendChild(schema);
+    }
+
+    schema.textContent = JSON.stringify({
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "WebPage",
+          "@id": `${url}#webpage`,
+          url: url,
+          name: title,
+          description: description,
+          inLanguage: "id-ID",
+          isPartOf: {
+            "@id": "https://chanthecno.com/#website",
+          },
+          about: {
+            "@type": "SoftwareApplication",
+            name: "ChanThecno AI",
+            applicationCategory: "BusinessApplication",
+            operatingSystem: "Web",
+            url: url,
+          },
+        },
+        {
+          "@type": "BreadcrumbList",
+          "@id": `${url}#breadcrumb`,
+          itemListElement: [
+            {
+              "@type": "ListItem",
+              position: 1,
+              name: "Beranda",
+              item: "https://chanthecno.com/",
+            },
+            {
+              "@type": "ListItem",
+              position: 2,
+              name: "ChanThecno AI",
+              item: url,
+            },
+          ],
+        },
+      ],
+    });
+  }, []);
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({
       behavior: "smooth",
     });
   }, [messages, isLoading, streamingContent]);
-
-  // Auto resize textarea
   useEffect(() => {
     const el = textareaRef.current;
 
@@ -195,8 +296,6 @@ export default function ChanThecnoAi() {
     el.style.height = "auto";
     el.style.height = `${Math.min(el.scrollHeight, 160)}px`;
   }, [input]);
-
-  // Bersihkan interval ketika komponen di-unmount
   useEffect(() => {
     return () => {
       if (typingIntervalRef.current) {
@@ -204,8 +303,6 @@ export default function ChanThecnoAi() {
       }
     };
   }, []);
-
-  // Copy pesan
   const handleCopy = async (text, index) => {
     try {
       await navigator.clipboard.writeText(text);
@@ -219,8 +316,6 @@ export default function ChanThecnoAi() {
       console.error("Gagal menyalin pesan:", error);
     }
   };
-
-  // Animasi jawaban AI
   const animateResponse = (fullText) => {
     setIsTyping(true);
     setStreamingContent("");
@@ -257,8 +352,6 @@ export default function ChanThecnoAi() {
       }
     }, 14);
   };
-
-  // Kirim pesan
   const sendMessage = async (customMessage) => {
     const text = (customMessage || input).trim();
 
@@ -329,24 +422,16 @@ export default function ChanThecnoAi() {
     }
   };
 
-  const suggestions = [
-    {
-      text: "Apa itu ChanThecno?",
-      icon: IconChat,
-    },
-    {
-      text: "Bantu saya membuat website",
-      icon: IconBuilding,
-    },
-    {
-      text: "Jelaskan tentang Artificial Intelligence",
-      icon: IconSpark,
-    },
-    {
-      text: "Bantu saya membuat aplikasi",
-      icon: IconLayers,
-    },
-  ];
+ const suggestions = [
+   {
+     text: "Apa itu ChanThecno?",
+     icon: IconChat,
+   },
+   {
+     text: "Siapa pencipta ChanThecno?",
+     icon: User2,
+   },
+ ];
 
   const useSuggestion = (text) => {
     sendMessage(text);
@@ -493,8 +578,6 @@ export default function ChanThecnoAi() {
             infinite;
         }
       `}</style>
-
-      {/* HEADER */}
       <header className="relative w-full h-20 bg-[#FAFAF6]/90 backdrop-blur-md flex items-center justify-between px-4 sm:px-8 lg:px-16 sticky top-0 z-50">
         <div className="pointer-events-none absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#F2A93B]/50 to-transparent" />
 
@@ -528,12 +611,9 @@ export default function ChanThecnoAi() {
           Kembali
         </Link>
       </header>
-
-      {/* MAIN */}
       <main className="flex-1 w-full max-w-5xl mx-auto px-4 sm:px-6 flex flex-col">
         {messages.length === 0 && !isLoading && !isTyping ? (
           <div className="flex-1 flex flex-col items-center justify-center py-16">
-            {/* LOGO */}
             <div className="relative w-20 h-20 sm:w-24 sm:h-24 cn-logo-rise">
               <div
                 className="cn-hero-glow absolute -inset-6 rounded-full blur-2xl"
@@ -551,8 +631,6 @@ export default function ChanThecnoAi() {
                 />
               </div>
             </div>
-
-            {/* TITLE */}
             <h2
               className="mt-8 text-3xl sm:text-4xl md:text-5xl font-bold text-[#10141F] text-center tracking-tight"
               style={{
@@ -561,14 +639,10 @@ export default function ChanThecnoAi() {
             >
               Halo, saya ChanThecno AI
             </h2>
-
-            {/* DESCRIPTION */}
             <p className="mt-4 text-[#3B4453] text-center max-w-xl text-sm sm:text-base leading-relaxed">
               Saya siap membantu Anda menjawab pertanyaan, mencari ide, membuat
               solusi, dan membantu berbagai kebutuhan Anda.
             </p>
-
-            {/* SUGGESTIONS */}
             <div className="mt-10 grid grid-cols-1 sm:grid-cols-2 gap-3 w-full max-w-2xl">
               {suggestions.map(({ text, icon: Icon }) => (
                 <button
@@ -588,7 +662,6 @@ export default function ChanThecnoAi() {
             </div>
           </div>
         ) : (
-          /* CHAT */
           <div className="flex-1 py-8 sm:py-10 space-y-6">
             {messages.map((message, index) => (
               <div
@@ -604,7 +677,6 @@ export default function ChanThecnoAi() {
                       : "bg-white border border-[#55708C]/15 border-l-[3px] border-l-[#F2A93B] text-[#3B4453] rounded-bl-md shadow-sm"
                   }`}
                 >
-                  {/* COPY */}
                   {message.role === "assistant" && (
                     <button
                       type="button"
@@ -621,8 +693,6 @@ export default function ChanThecnoAi() {
                       )}
                     </button>
                   )}
-
-                  {/* USER / AI */}
                   {message.role === "user" ? (
                     message.content
                   ) : (
@@ -636,8 +706,6 @@ export default function ChanThecnoAi() {
                 </div>
               </div>
             ))}
-
-            {/* LOADING */}
             {isLoading && (
               <div className="cn-message-in flex justify-start">
                 <div className="bg-white border border-[#55708C]/15 rounded-2xl rounded-bl-md px-5 py-4 flex items-center gap-3 shadow-sm">
@@ -659,8 +727,6 @@ export default function ChanThecnoAi() {
                 </div>
               </div>
             )}
-
-            {/* TYPING */}
             {isTyping && (
               <div className="cn-message-in flex justify-start">
                 <div className="bg-white border border-[#55708C]/15 border-l-[3px] border-l-[#F2A93B] text-[#3B4453] rounded-2xl rounded-bl-md max-w-[90%] sm:max-w-[80%] px-5 py-4 text-sm sm:text-base leading-relaxed shadow-sm">
@@ -677,8 +743,6 @@ export default function ChanThecnoAi() {
           </div>
         )}
       </main>
-
-      {/* INPUT */}
       <div className="sticky bottom-0 w-full bg-gradient-to-t from-[#FAFAF6] via-[#FAFAF6] to-transparent pt-8 pb-5">
         <div className="max-w-5xl mx-auto px-4 sm:px-6">
           <div className="bg-white border border-[#55708C]/20 focus-within:border-[#F2A93B] focus-within:ring-4 focus-within:ring-[#F2A93B]/15 rounded-2xl shadow-lg shadow-[#10141F]/5 p-2 flex items-end gap-2 transition-all duration-200">

@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { Link } from "react-router-dom";
 import {
@@ -103,8 +103,6 @@ function PuzzleIcon() {
   );
 }
 
-/* --------------------------------- CONTENT --------------------------------- */
-
 const misi = [
   {
     title: "Identifikasi Masalah Bisnis",
@@ -189,8 +187,6 @@ const roadmap = [
   },
 ];
 
-/* --------------------------------- MOTION --------------------------------- */
-
 const fadeUp = {
   hidden: { opacity: 0, y: 28 },
   show: { opacity: 1, y: 0 },
@@ -203,9 +199,105 @@ const stagger = {
   },
 };
 
-/* ---------------------------------- PAGE ----------------------------------- */
-
 function Home() {
+  useEffect(() => {
+    const title =
+      "ChanThecno — Solusi AI & Otomatisasi Bisnis untuk UMKM Indonesia";
+    const description =
+      "ChanThecno membantu UMKM dan perusahaan beralih dari proses kerja manual menuju AI dan otomatisasi bisnis, terutama customer service dan operasional.";
+    const canonical = "https://chanthecno.com/";
+
+    document.title = title;
+
+    const setMeta = (selector, attribute, value) => {
+      let element = document.head.querySelector(selector);
+      if (!element) {
+        element = document.createElement("meta");
+        element.setAttribute(
+          attribute,
+          selector.match(/\[([^=]+)=/)?.[1] || "",
+        );
+        document.head.appendChild(element);
+      }
+      element.setAttribute("content", value);
+    };
+
+    const setLink = (rel, href) => {
+      let element = document.head.querySelector(`link[rel="${rel}"]`);
+      if (!element) {
+        element = document.createElement("link");
+        element.setAttribute("rel", rel);
+        document.head.appendChild(element);
+      }
+      element.setAttribute("href", href);
+    };
+
+    setMeta('meta[name="description"]', "name", description);
+    setMeta(
+      'meta[name="robots"]',
+      "name",
+      "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1",
+    );
+    setMeta('meta[name="googlebot"]', "name", "index, follow");
+    setMeta('meta[property="og:type"]', "property", "website");
+    setMeta('meta[property="og:title"]', "property", title);
+    setMeta('meta[property="og:description"]', "property", description);
+    setMeta('meta[property="og:url"]', "property", canonical);
+    setMeta('meta[property="og:site_name"]', "property", "ChanThecno");
+    setMeta(
+      'meta[property="og:image"]',
+      "property",
+      `${canonical}chanthecno.svg`,
+    );
+    setMeta('meta[name="twitter:card"]', "name", "summary_large_image");
+    setMeta('meta[name="twitter:title"]', "name", title);
+    setMeta('meta[name="twitter:description"]', "name", description);
+    setMeta('meta[name="twitter:image"]', "name", `${canonical}chanthecno.svg`);
+    setLink("canonical", canonical);
+
+    const existingSchema = document.head.querySelector(
+      'script[data-chanthecno-seo="home"]',
+    );
+    if (existingSchema) existingSchema.remove();
+
+    const schema = document.createElement("script");
+    schema.type = "application/ld+json";
+    schema.setAttribute("data-chanthecno-seo", "home");
+    schema.textContent = JSON.stringify({
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "Organization",
+          "@id": `${canonical}#organization`,
+          name: "ChanThecno",
+          url: canonical,
+          logo: `${canonical}chanthecno.svg`,
+        },
+        {
+          "@type": "WebSite",
+          "@id": `${canonical}#website`,
+          url: canonical,
+          name: "ChanThecno",
+          publisher: { "@id": `${canonical}#organization` },
+        },
+        {
+          "@type": "WebPage",
+          "@id": `${canonical}#webpage`,
+          url: canonical,
+          name: title,
+          description: description,
+          isPartOf: { "@id": `${canonical}#website` },
+          about: { "@id": `${canonical}#organization` },
+        },
+      ],
+    });
+    document.head.appendChild(schema);
+
+    return () => {
+      schema.remove();
+    };
+  }, []);
+
   const roadmapRef = useRef(null);
   const { scrollYProgress } = useScroll({
     target: roadmapRef,
@@ -227,7 +319,7 @@ function Home() {
       <div className="relative z-10">
         <Header />
 
-        {/* HERO */}
+        {}
         <section className="px-6 pb-20 pt-16 md:pb-28 md:pt-24">
           <motion.div
             initial="hidden"
@@ -276,7 +368,7 @@ function Home() {
           </motion.div>
         </section>
 
-        {/* VISI */}
+        {}
         <section id="visi" className="border-t border-white/5 px-6 py-24">
           <div className="mx-auto grid max-w-6xl gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
             <motion.div
@@ -310,7 +402,7 @@ function Home() {
           </div>
         </section>
 
-        {/* MISI */}
+        {}
         <section className="border-t border-white/5 px-6 py-24">
           <div className="mx-auto max-w-7xl">
             <motion.div
@@ -352,7 +444,7 @@ function Home() {
           </div>
         </section>
 
-        {/* TUJUAN */}
+        {}
         <section className="border-t border-white/5 px-6 py-24">
           <div className="mx-auto grid max-w-7xl gap-12 lg:grid-cols-[0.8fr_1.2fr]">
             <motion.div
@@ -392,7 +484,7 @@ function Home() {
           </div>
         </section>
 
-        {/* PRINSIP PENGEMBANGAN */}
+        {}
         <section className="border-t border-white/5 px-6 py-24">
           <div className="mx-auto max-w-5xl">
             <motion.div
@@ -434,7 +526,7 @@ function Home() {
           </div>
         </section>
 
-        {/* ARAH STRATEGIS / ROADMAP */}
+        {}
         <section
           ref={roadmapRef}
           className="border-t border-white/5 px-6 py-24"
@@ -490,7 +582,7 @@ function Home() {
           </div>
         </section>
 
-        {/* FOOTER */}
+        {}
         <footer className="border-t border-white/5 bg-slate-950 px-6 py-16 text-slate-400">
           <div className="mx-auto max-w-7xl">
             <div className="grid grid-cols-1 gap-10 pb-12 md:grid-cols-4 sm:grid-cols-2">
@@ -529,7 +621,7 @@ function Home() {
                 </ul>
               </div>
 
-              {/* Kolom 3: Layanan / Fitur */}
+              {}
               <div className="flex flex-col gap-3">
                 <h4 className="text-sm font-semibold uppercase tracking-wider text-slate-200">
                   Layanan
@@ -554,7 +646,7 @@ function Home() {
                 </ul>
               </div>
 
-              {/* Kolom 4: Legalitas */}
+              {}
               <div className="flex flex-col gap-3">
                 <h4 className="text-sm font-semibold uppercase tracking-wider text-slate-200">
                   Legal
@@ -580,7 +672,7 @@ function Home() {
               </div>
             </div>
 
-            {/* Bagian Bawah: Copyright & Medsos */}
+            {}
             <div className="flex flex-col items-center justify-between gap-6 border-t border-white/5 pt-8 md:flex-row">
               <p className="text-xs text-slate-500 text-center md:text-left">
                 &copy; {new Date().getFullYear()}{" "}
